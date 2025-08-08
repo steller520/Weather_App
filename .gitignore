@@ -125,6 +125,12 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Exclude GitHub configuration directory
+.github/
+
+# Exclude VS Code settings directory
+.vscode/
+
 # yarn v3
 .pnp.*
 .yarn/*
