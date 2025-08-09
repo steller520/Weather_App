@@ -30,25 +30,37 @@
                 <i class="fas fa-cloud-sun"></i>
                 Get Current Weather <i class="fas fa-cloud-showers-heavy"></i>
             </h2>
-            <form action="" class="flex flex-col bg-pink-100 mt-5 p-2 rounded shadow-md shadow-pink-200">
+            <form action="" id="search-form" class="flex flex-col bg-pink-100 mt-5 p-2 rounded shadow-md shadow-pink-200">
 
-                <label for="location" class="text-1xl font-bold">Enter Location:</label>
-                <input type="text" id="location" name="location" placeholder="Indian Cities only"
-                    class="text-center border border-pink-400 shadow-md shadow-pink-200 focus:shadow-pink-400 w-full mx-auto rounded px-3 py-1 m-2"
-                    required>
-                <button type="submit"
+                <label for="search-input" class="text-1xl font-bold">Enter Location:</label>
+                <div id="search-container" class="relative w-full">
+                    <input type="text" id="search-input" name="location" placeholder="Indian Cities only"
+                        class="text-center border border-pink-400 shadow-md shadow-pink-200 focus:shadow-pink-400 w-full mx-auto rounded px-3 py-1 m-2"
+                        required>
+                        <div id="recent-searches" class="mt-2 bg-green-100 absolute border-2 border-pink-400 h-[fit-content] top-8 w-full rounded shadow-md shadow-green-200 hidden">
+                            <h3 class="font-bold border-1 bg-gray-200 border-b-black">Recent Searches:</h3>
+                            <div id="recent-searches-list" class="overflow-y-auto h-fit max-h-20 p-2">
+                                <!-- Recent searches will be populated here -->
+                            </div>
+                            <button id="clear-recent-searches" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 w-full rounded mt-2  mx-auto text-1xl">
+                                Clear All
+                            </button>
+                        </div>
+                </div>
+                <button type="submit" id="search-button"
                     class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded w-[150px] mt-2 mx-auto">Get
                     Weather</button>
                 <div class="or text-2xl flex items-center justify-evenly">
                     <div class="inline-block bg-pink-600 h-1 w-4/9"> </div> OR <div
                         class="inline-block bg-pink-600 h-1 w-4/9"> </div>
                 </div>
-                <button
+                <button id="current-location-button"
                     class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded w-[300px] mt-2 mx-auto">
                     <i class="fas fa-map-marker-alt mr-2"></i>Current Location
                 </button>
             </form>
 
+            <div class="map w-full h-44 mt-8 bg-sky-200 rounded-lg shadow-lg border-2 border-sky-400"></div>
             <!--Weather info -->
             <div class="bg-purple-100 rounded p-4 mt-5 shadow-md shadow-purple-200 h-fit w-full">
                 <h2 class="text-3xl font-bold text-purple-700 flex items-center justify-evenly gap-2">
@@ -57,7 +69,6 @@
                     <i class="fas fa-question-circle"></i>
                 </h2>
             </div>
-            <div class="map w-full h-44 mt-8 bg-sky-200 rounded-lg shadow-lg border-2 border-sky-400"></div>
              <div class="bg-purple-100 rounded p-4 mt-5 shadow-md shadow-purple-200 h-fit w-full">
                  <div id="weather-info" class="mt-2 border-1 text-purple-900 flex flex-col items-center justify-center p-2">
                      <!-- Weather information will be displayed here -->
@@ -74,15 +85,21 @@
              </div>
         </main>
         <!--side content-->
-        <aside class="border-1 bg-blue-50 w-full lg:w-2/3">
-            <div
-                class="bg-[url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80') ] bg-cover bg-center h-full w-full">
-            </div>
-
+        <aside class="border-1 flex flex-col items-center justify-center w-full lg:w-2/3">
+            <div id="forecast"
+                class="bg-[url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center h-full min-h-[400px] w-full flex  justify-center">
+                <div class="bg-auto bg-opacity-80 rounded-3xl shadow-lg p-6 w-11/12 max-w-2xl flex flex-col items-center min-h-[50px] max-h-fit relative z-10 top-4">
+                    <h3 class="text-2xl font-bold text-blue-700 mb-4 flex items-center gap-2">
+                        <i class="fas fa-cloud"></i> 5 Days Forecast
+                    </h3>
+                    <div id="five-days-forecast" class="grid grid-cols-1 md:grid-cols-5 gap-4 w-full">
+                        <!-- Each day's forecast will be inserted here dynamically -->
+                    </div>
+                </div>
             </div>
         </aside>
     </section>
-    <script src="src/js/script.js" defer></script>
+    <script src="src/js/script.js" ></script>
 </body>
 
 </html>
