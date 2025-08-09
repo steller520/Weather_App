@@ -2,13 +2,20 @@ console.log("Weather App script loaded");
 
 // Global references for DOM elements
 let searchForm,
-    searchInput,
-     recentSearchesListContainer,
-     clearRecentSearchesButton,
-     weatherInfoContainer,
-     recentSearchesContainer,
-     currentLocation
-     ;
+searchInput,
+recentSearchesListContainer,
+clearRecentSearchesButton,
+weatherInfoContainer,
+recentSearchesContainer,
+currentLocation,
+city
+;
+// Default coordinates for the weather API
+let defaultCoordinates = {
+    latitude: 28.6139,
+    longitude: 77.2090,
+    city: "New Delhi"
+}
 
 //Dom content loaded event to ensure all elements are available
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,16 +63,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    currentLocation.addEventListener("click", () => {
+        // Get current location coordinates
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const Coordinates = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    city: "Current Location"
+                };
+                console.log("Current Location Coordinates:", Coordinates);
+                // Initialize the weather app with current location coordinates
+                initializeWeatherApp(Coordinates, Coordinates.city);
+            }, (error) => {
+                console.error("Error getting current location:", error);
+            });
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
+    });
+    
     // Initialize the weather app with default coordinates
-    // initializeWeatherApp(defaultCoordinates);
+    initializeWeatherApp(Coordinates, city);
 });
 
-// Default coordinates for the weather API
-let defaultCoordinates = {
-    latitude: 28.6139,
-    longitude: 77.2090,
-    cityname: "New Delhi"
-}
 
 // function to add recent searches
 function addRecentSearch(city) {
@@ -156,4 +177,10 @@ function toggleShowHideRecentSearches() {
     });
 
 }
-    
+
+// Function to initialize weather app
+function initializeWeatherApp(coordinates, city) {
+    console.log("Initializing weather app with coordinates:", coordinates);
+    // Fetch weather data for the given coordinates
+    fetchWeatherData(coordinates);
+}
