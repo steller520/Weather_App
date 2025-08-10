@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+/* Dynamic Weather Background Classes */
+.bg-hot {
+    background: linear-gradient(135deg, #fed7aa, #fb7185, #ec4899);
+}
+
+.bg-cold {
+    background: linear-gradient(135deg, #bfdbfe, #60a5fa, #4f46e5);
+}
+
+.bg-rain {
+    background: linear-gradient(135deg, #9ca3af, #3b82f6, #312e81);
+}
+
+.bg-snow {
+    background: linear-gradient(135deg, #ffffff, #e5e7eb, #93c5fd);
+}
+
+.bg-default {
+    background: linear-gradient(135deg, #fef3c7, #fde68a, #fed7aa);
+}
