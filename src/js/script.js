@@ -233,7 +233,7 @@ async function initializeWeatherApp(city) {
             let forecastCondition = 'default';
             
             // Determine background condition for body
-            if (temp >= 40) {  // Set to 40°C as per assignment requirements
+            if (temp >= 40) {  // Set to 40°C for hot weather
                 console.log("Triggering hot weather alert");
                 customalert('🔥 Too Hot! Stay hydrated.');
                 backgroundCondition = 'hot';
@@ -244,8 +244,8 @@ async function initializeWeatherApp(city) {
                 backgroundCondition = 'cold';
                 forecastCondition = 'cold';
             }
-            
-            if (condition.includes('rain')) {
+            //other alerts
+            if (condition.includes('rain')) { 
                 console.log("Triggering rain alert");
                 customalert('🌧️ Extreme Rain! Take precautions.');
                 backgroundCondition = 'rain';
@@ -611,6 +611,24 @@ function updateForecastUI(forecastData) {
 function customalert(message) {
     console.log("customalert called with message:", message);
     
+    const customAlertDiv = document.getElementById('custom-alert');
+    if (!customAlertDiv) {
+        console.error('Custom alert div not found');
+        return;
+    }
+
+    // Better responsive behavior for different screen sizes - REMOVED PURPLE BORDER
+    if (window.innerWidth <= 480) {
+        // Mobile phones - fixed positioning at top
+        customAlertDiv.className = "fixed top-16 left-2 right-2 z-50 max-h-32 overflow-y-auto scrollbar-hide p-2 bg-transparent rounded-lg";
+    } else if (window.innerWidth <= 768) {
+        // iPad Mini and tablets - relative positioning with limited height
+        customAlertDiv.className = "mt-4 relative max-h-40 overflow-y-auto scrollbar-hide p-2 bg-transparent rounded-lg";
+    } else {
+        // Desktop - normal positioning
+        customAlertDiv.className = "mt-4 relative max-h-none overflow-visible p-2 bg-transparent rounded-lg";
+    }
+    
     // Support both string and object input for flexibility
     let msg = message;
     let type = 'info';
@@ -619,7 +637,7 @@ function customalert(message) {
         type = message.type || 'info';
     }
     let alertText = '';
-    let alertColor = 'bg-gradient-to-r from-purple-500 to-purple-600 border-purple-200'; // Default color
+    let alertColor = 'bg-gradient-to-r from-purple-500 to-purple-600 '; // Default color
     switch (type) {
         case 'hot':
             alertText = '🔥 Too Hot! Stay hydrated.';
@@ -644,28 +662,31 @@ function customalert(message) {
     
     console.log("Alert text to display:", alertText);
     
+    // Create alert with responsive sizing
     let alertBox = document.createElement('div');
-    alertBox.className = `custom-alert ${alertColor} text-white px-6 py-4 rounded-lg shadow-lg text-lg font-semibold my-2 border-2`;
+    const isMobile = window.innerWidth <= 480;
+    alertBox.className = `custom-alert ${alertColor} text-white ${isMobile ? 'px-3 py-2 text-sm' : 'px-6 py-4 text-lg'} rounded-lg shadow-lg font-semibold mb-2 border-2 transition-all duration-300`;
     alertBox.innerText = alertText;
-    alertBox.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important; z-index: 9999 !important; position: relative !important; min-height: 60px !important;';
     
-    // Find the custom-alert div in the forecast section
-    const customAlertDiv = document.getElementById('custom-alert');
     console.log("Custom alert div found:", !!customAlertDiv);
-    console.log("Custom alert div element:", customAlertDiv);
     
     if (customAlertDiv) {
-        // Don't clear previous alerts - just append new one
-        customAlertDiv.style.cssText = 'display: block !important; visibility: visible !important; min-height: auto !important; background-color: transparent !important; border: 2px solid #9333ea !important; border-radius: 12px !important; padding: 16px !important;';
+        // Show the container
+        customAlertDiv.style.display = 'block';
         customAlertDiv.appendChild(alertBox);
         console.log("Alert added to custom-alert div");
         console.log("Total alerts now:", customAlertDiv.children.length);
-        // Optionally scroll into view
-        customAlertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Only scroll to top on very small screens (mobile phones)
+        if (window.innerWidth <= 480) {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        }
     } else {
         // fallback to body if not found
         console.log("Fallback: adding alert to body");
-        alertBox.style.cssText += 'position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important;';
+        alertBox.style.cssText = 'position: fixed !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; z-index: 9999 !important;';
         document.body.appendChild(alertBox);
     }
     
