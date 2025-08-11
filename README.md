@@ -113,7 +113,7 @@ Visit the live application: [Weather App Demo](https://your-weather-app-demo.net
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/weather-app.git
+   git clone [https://github.com/yourusername/weather-app.git](https://github.com/steller520/Weather_App.git)
    cd weather-app
    ```
 
