@@ -59,7 +59,7 @@ A comprehensive, responsive weather forecast application built with vanilla Java
 
 ## 🚀 Live Demo
 
-Visit the live application: [Weather App Demo](https://your-weather-app-demo.netlify.app)
+Visit the live application: [Weather App Demo](https://your-weather-app-demo.netlify.app) *in future*
 
 ## 📱 Screenshots
 
