@@ -11,13 +11,74 @@ weatherInfoContainer,
 recentSearchesContainer,
 currentLocation,
 globalTempToggle,
-toggleText
-;
+toggleText;
 
 // Global variables for temperature conversion
 let currentTempCelsius = null;
 let forecastTemperatures = []; // Store forecast temperatures
 let isTemperatureInCelsius = true;
+
+// Enhanced location validation function
+function validateLocation(cityName) {
+    // Remove extra spaces and convert to lowercase for validation
+    const cleanedCity = cityName.trim().toLowerCase();
+    
+    // Check if input is empty
+    if (!cleanedCity) {
+        customalert('❌ Please enter a city name!');
+        return false;
+    }
+    
+    // Check minimum length
+    if (cleanedCity.length < 2) {
+        customalert('❌ City name must be at least 2 characters long!');
+        return false;
+    }
+    
+    // Check for invalid characters (only letters, spaces, and hyphens allowed)
+    const validCityPattern = /^[a-zA-Z\s\-'\.]+$/;
+    if (!validCityPattern.test(cleanedCity)) {
+        customalert('❌ City name can only contain letters, spaces, and hyphens!');
+        return false;
+    }
+    
+    // Check for excessive length
+    if (cleanedCity.length > 50) {
+        customalert('❌ City name is too long!');
+        return false;
+    }
+    
+    // List of common invalid inputs
+    const invalidInputs = [
+        'test', 'example', 'city', 'location', 'place', 'town',
+        '123', 'abc', 'xyz', 'asdf', 'qwerty', 'hello', 'world',
+        'sample', 'demo', 'testing', 'enter', 'input'
+    ];
+    
+    if (invalidInputs.includes(cleanedCity)) {
+        customalert('❌ Please enter a valid city name!');
+        return false;
+    }
+    
+    return true;
+}
+
+// Enhanced API error handling function
+function handleAPIError(error, cityName) {
+    console.error('API Error:', error);
+    
+    if (error.message.includes('404')) {
+        customalert(`❌ City "${cityName}" not found! Please check spelling or try another Indian city.`);
+    } else if (error.message.includes('401')) {
+        customalert('🔑 API key error! Please check your configuration.');
+    } else if (error.message.includes('429')) {
+        customalert('⏰ Too many requests! Please wait a moment and try again.');
+    } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+        customalert('🌐 Network error! Please check your internet connection.');
+    } else {
+        customalert('❌ Something went wrong! Please try again later.');
+    }
+}
 
 //Dom content loaded event to ensure all elements are available
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,16 +120,67 @@ document.addEventListener("DOMContentLoaded", () => {
         updateRecentSearches();
     });
 
-    // Add event listener for search form submission
+    // Enhanced form submission with validation
     searchForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const city = searchInput.value.trim();
-        if (city) {
-            console.log("searchInput value:", searchInput.value);
+        
+        console.log("searchInput value:", searchInput.value);
+        
+        // Enhanced validation before processing
+        if (validateLocation(city)) {
+            // Clear any previous error styling
+            searchInput.classList.remove('border-red-500');
+            searchInput.classList.add('border-green-500');
+            
+            // Add to recent searches and initialize weather
             addRecentSearch(city);
             initializeWeatherApp(city);
+            
+            // Clear input after successful validation
+            searchInput.value = '';
+            setTimeout(() => {
+                searchInput.classList.remove('border-green-500');
+            }, 2000);
+        } else {
+            // Add error styling for invalid input
+            searchInput.classList.add('border-red-500');
+            searchInput.focus();
+            
+            // Remove error styling after 3 seconds
+            setTimeout(() => {
+                searchInput.classList.remove('border-red-500');
+            }, 3000);
         }
     });
+
+    // Real-time input validation
+    searchInput.addEventListener('input', function(e) {
+        const input = e.target.value;
+        const inputField = e.target;
+        
+        // Remove any previous styling
+        inputField.classList.remove('border-red-500', 'border-green-500', 'border-yellow-500');
+        
+        if (input.length > 0) {
+            // Basic real-time validation
+            const validCityPattern = /^[a-zA-Z\s\-'\.]+$/;
+            
+            if (!validCityPattern.test(input)) {
+                inputField.classList.add('border-red-500');
+                inputField.title = 'Only letters, spaces, and hyphens allowed';
+            } else if (input.length < 2) {
+                inputField.classList.add('border-yellow-500');
+                inputField.title = 'At least 2 characters required';
+            } else if (input.length >= 2) {
+                inputField.classList.add('border-green-500');
+                inputField.title = 'Valid city name format';
+            }
+        } else {
+            inputField.title = '';
+        }
+    });
+
     // Current Location Button
     currentLocation.addEventListener("click", () => {
         // Get current location coordinates
@@ -92,9 +204,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 
             }, (error) => {
                 console.error("Error getting current location:", error);
+                customalert('❌ Unable to get your location. Please enable location services.');
             });
         } else {
             console.error("Geolocation is not supported by this browser.");
+            customalert('❌ Geolocation is not supported by your browser.');
         }
     });
 
@@ -103,12 +217,11 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleGlobalTemperatureUnit();
     });
 
-        // Initialize the map and weather to New Delhi by default
-        // New Delhi coordinates: lat 28.6139, lon 77.2090
+    // Initialize the map and weather to New Delhi by default
+    // New Delhi coordinates: lat 28.6139, lon 77.2090
     initializeLeafletMap(28.6139, 77.2090, "New Delhi", true);
-        initializeWeatherApp("New Delhi");
+    initializeWeatherApp("New Delhi");
 });
-
 
 // function to add recent searches
 function addRecentSearch(city) {
@@ -132,11 +245,9 @@ function addRecentSearch(city) {
     // Clear the search input field
     searchInput.value = "";
 
-
     // Save recent searches to local storage
     saveRecentSearches(city);
     updateRecentSearches();
-
 }
 
 // Function to save recent searches to local storage
@@ -153,7 +264,6 @@ function saveRecentSearches(city) {
 function updateRecentSearches() {
     // Clear existing items
     recentSearchesListContainer.innerHTML = "";
-
 
     // Get recent searches from local storage
     const recentSearches = JSON.parse(localStorage.getItem("recentSearches")) || [];
@@ -199,10 +309,9 @@ function toggleShowHideRecentSearches() {
             recentSearchesContainer.classList.add("hidden");
         }
     });
-
 }
 
-// Function to initialize weather app
+// Function to initialize weather app with enhanced error handling
 async function initializeWeatherApp(city) {
     if (city) {
         // Clear any existing alerts from previous searches
@@ -212,17 +321,31 @@ async function initializeWeatherApp(city) {
             customAlertDiv.style.display = 'none';
         }
         
+        // Show loading state
+        weatherInfoContainer.innerHTML = "Loading weather data...";
+        
         // Fetch weather data for the given city
-        weatherInfoContainer.innerHTML = ""; // Clear previous weather info
         let weatherdata = await fetchWeatherData(city);
+        
+        // Check if data was successfully fetched
+        if (!weatherdata) {
+            weatherInfoContainer.innerHTML = "<p class='text-red-500'>Failed to load weather data. Please try again.</p>";
+            return;
+        }
+        
         console.log("Weather data fetched:", weatherdata);
         displayWeatherData(weatherdata);
+        
         let forecastData = await fetchFiveDayForecast(city);
-        updateForecastUI(forecastData);
+        if (forecastData) {
+            updateForecastUI(forecastData);
+        }
+        
         // If weatherdata is valid, update the map
         if (weatherdata && weatherdata.coord) {
             initializeLeafletMap(weatherdata.coord.lat, weatherdata.coord.lon, city, true);
         }
+        
         // Custom alerts for extreme weather
         if (weatherdata && weatherdata.main && weatherdata.weather && weatherdata.weather[0]) {
             const temp = weatherdata.main.temp;
@@ -271,17 +394,27 @@ async function initializeWeatherApp(city) {
     }
 }
 
-// Fetch weather data for a specific city
+// Enhanced fetch weather data with proper error handling
 async function fetchWeatherData(city) {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)},IN&appid=${YOUR_API_KEY}&units=metric`);
+        
         if (!response.ok) {
-            throw new Error("Failed to fetch weather data");
+            if (response.status === 404) {
+                throw new Error('404: City not found');
+            } else if (response.status === 401) {
+                throw new Error('401: Invalid API key');
+            } else if (response.status === 429) {
+                throw new Error('429: Rate limit exceeded');
+            } else {
+                throw new Error(`${response.status}: API request failed`);
+            }
         }
+        
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Error fetching weather data:", error);
+        handleAPIError(error, city);
         return null;
     }
 }
@@ -394,14 +527,20 @@ function updateAlertTemperatures() {
     });
 }
 
-// Function to fetch city name from coordinates
+// Function to fetch city name from coordinates with error handling
 async function fetchCityName(lat, lon) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${YOUR_API_KEY}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch city name');
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${YOUR_API_KEY}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch city name');
+        }
+        const data = await response.json();
+        return data.name;
+    } catch (error) {
+        console.error('Error fetching city name:', error);
+        customalert('❌ Unable to get location name from coordinates.');
+        return 'Unknown Location';
     }
-    const data = await response.json();
-    return data.name;
 }
 
 // Function to initialize the map
@@ -411,7 +550,6 @@ let currentMarker = null;
 
 function initializeLeafletMap(latitude, longitude, cityName, isDefault = false) {
     console.log("Updating map for:", cityName, "Coords:", latitude, longitude);
-
 
     // Coerce to numbers and validate
     const latNum = Number(latitude);
@@ -496,18 +634,34 @@ function initializeLeafletMap(latitude, longitude, cityName, isDefault = false) 
 
         } catch (error) {
             console.error("Error with map:", error);
+            customalert('❌ Error loading map. Please try again.');
         }
     }, 50);
 }
 
-// five-days-forecast and update forecast
+// Enhanced five-days-forecast with error handling
 async function fetchFiveDayForecast(city) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)},IN&appid=${YOUR_API_KEY}&units=metric`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch 5-day forecast');
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)},IN&appid=${YOUR_API_KEY}&units=metric`);
+        
+        if (!response.ok) {
+            if (response.status === 404) {
+                throw new Error('404: City not found');
+            } else if (response.status === 401) {
+                throw new Error('401: Invalid API key');
+            } else if (response.status === 429) {
+                throw new Error('429: Rate limit exceeded');
+            } else {
+                throw new Error(`${response.status}: API request failed`);
+            }
+        }
+        
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        handleAPIError(error, city);
+        return null;
     }
-    const data = await response.json();
-    return data;
 }
 
 // Update the UI with the fetched forecast data
@@ -523,18 +677,18 @@ function updateForecastUI(forecastData) {
         return;
     }
 
-        // Extract one forecast per day (first entry for each new day)
-        const dailyForecasts = [];
-        const usedDates = new Set();
-        for (const entry of forecastData.list) {
-            const date = new Date(entry.dt * 1000);
-            const dayStr = date.toISOString().split('T')[0];
-            if (!usedDates.has(dayStr)) {
-                dailyForecasts.push(entry);
-                usedDates.add(dayStr);
-            }
-            if (dailyForecasts.length === 5) break;
+    // Extract one forecast per day (first entry for each new day)
+    const dailyForecasts = [];
+    const usedDates = new Set();
+    for (const entry of forecastData.list) {
+        const date = new Date(entry.dt * 1000);
+        const dayStr = date.toISOString().split('T')[0];
+        if (!usedDates.has(dayStr)) {
+            dailyForecasts.push(entry);
+            usedDates.add(dayStr);
         }
+        if (dailyForecasts.length === 5) break;
+    }
 
     // Prepare a container for detailed info below the forecast if not present
     let detailsDiv = document.getElementById('forecast-details');
