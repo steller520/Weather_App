@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     globalTempToggle = document.getElementById("global-temp-toggle");
     toggleText = document.getElementById("toggle-text");
 
+    // Debugging information
     console.log("Search Form:", !!searchForm);
     console.log("Search Input:", !!searchInput);
     console.log("Recent Searches List Container:", !!recentSearchesListContainer);
@@ -68,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             initializeWeatherApp(city);
         }
     });
-
+    // Current Location Button
     currentLocation.addEventListener("click", () => {
         // Get current location coordinates
         if (navigator.geolocation) {
@@ -159,7 +160,7 @@ function updateRecentSearches() {
     console.log("Updating recent searches:", recentSearches);
 
     if (recentSearches.length > 0 ) {
-        // Show the recent searches container (parent)
+        // Show the recent searches container 
         recentSearchesContainer.classList.remove("hidden");
 
         // Populate the recent searches container
@@ -174,7 +175,7 @@ function updateRecentSearches() {
             recentSearchesListContainer.appendChild(searchItem);
         });
     } else {
-        // Hide the recent searches container (parent) if no searches exist
+        // Hide the recent searches container if no searches exist
         recentSearchesContainer.classList.add("hidden");
     }
 }
@@ -270,6 +271,7 @@ async function initializeWeatherApp(city) {
     }
 }
 
+// Fetch weather data for a specific city
 async function fetchWeatherData(city) {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)},IN&appid=${YOUR_API_KEY}&units=metric`);
@@ -284,6 +286,7 @@ async function fetchWeatherData(city) {
     }
 }
 
+// Display weather data on the UI
 function displayWeatherData(data) {
     if (!data || !data.name) {
         weatherInfoContainer.innerHTML = "<p class='text-red-500'>No weather data available.</p>";
@@ -318,6 +321,7 @@ function formatTemperature(tempCelsius) {
     }
 }
 
+// Toggle temperature unit
 function toggleGlobalTemperatureUnit() {
     isTemperatureInCelsius = !isTemperatureInCelsius;
     
@@ -332,6 +336,7 @@ function toggleGlobalTemperatureUnit() {
     console.log(`Switched to ${isTemperatureInCelsius ? 'Celsius' : 'Fahrenheit'}`);
 }
 
+// Update all temperature displays
 function updateAllTemperatures() {
     // Update current weather temperature
     const currentTempDisplay = document.getElementById("temperature-display");
@@ -346,6 +351,7 @@ function updateAllTemperatures() {
     updateAlertTemperatures();
 }
 
+// Update forecast temperatures
 function updateForecastTemperatures() {
     const forecastItems = document.querySelectorAll('.forecast-item');
     forecastItems.forEach((item, index) => {
@@ -375,6 +381,7 @@ function updateForecastTemperatures() {
     }
 }
 
+// Update alert temperatures
 function updateAlertTemperatures() {
     // Update any temperature-related alerts if they contain temperature values
     const alerts = document.querySelectorAll('.custom-alert');
@@ -548,6 +555,7 @@ function updateForecastUI(forecastData) {
         }
     }
 
+    // Display each day's forecast
     dailyForecasts.forEach((day, idx) => {
         const date = new Date(day.dt * 1000);
         const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
