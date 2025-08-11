@@ -414,7 +414,7 @@ We welcome contributions to improve the Weather App! Here's how you can help:
 - Improve accessibility features
 
 
-```
+
 
 ## 🙏 Acknowledgments
 
