@@ -438,7 +438,12 @@ We welcome contributions to improve the Weather App! Here's how you can help:
 
 ## 👤 Author
 
-Made by [steller520](https://github.com/steller520)
+**Developer:** [steller520](https://github.com/steller520)
+
+**GitHub Profile:** [@steller520](https://github.com/steller520)
+
+**Portfolio:** [View My Projects](https://github.com/steller520?tab=repositories)
+
 ---
 
 **Built with ❤️ for weather enthusiasts and developers**
