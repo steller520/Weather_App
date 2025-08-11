@@ -18,7 +18,7 @@ let currentTempCelsius = null;
 let forecastTemperatures = []; // Store forecast temperatures
 let isTemperatureInCelsius = true;
 
-// Enhanced location validation function
+//  location validation function
 function validateLocation(cityName) {
     // Remove extra spaces and convert to lowercase for validation
     const cleanedCity = cityName.trim().toLowerCase();
@@ -120,14 +120,14 @@ document.addEventListener("DOMContentLoaded", () => {
         updateRecentSearches();
     });
 
-    // Enhanced form submission with validation
+    //  form submission with validation
     searchForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const city = searchInput.value.trim();
         
         console.log("searchInput value:", searchInput.value);
         
-        // Enhanced validation before processing
+        // validation before processing
         if (validateLocation(city)) {
             // Clear any previous error styling
             searchInput.classList.remove('border-red-500');
