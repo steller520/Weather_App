@@ -78,6 +78,9 @@ Visit the live application: [Weather App Demo](https://your-weather-app-demo.net
 ![Mobile View - Forecast](screenshots/mobile-forecast.png)
 *5-day forecast cards adapted for mobile viewing with touch-friendly interface*
 
+![Alert on iPad Mini](screenshots/alertonmini.png)
+*Alert display optimization for iPad Mini and tablet devices*
+
 ### 🗺️ Interactive Features
 ![Interactive Map](screenshots/map-interaction.png)
 *Leaflet.js map with location markers and detailed popups showing coordinates*
@@ -239,7 +242,15 @@ weather-app/
 │       └── images/          # Application images
 │
 └── screenshots/             # Application screenshots
-    
+    ├── desktop-main.png     # Main desktop interface
+    ├── desktop-alerts.png   # Desktop weather alerts
+    ├── mobile-portrait.png  # Mobile responsive design
+    ├── mobile-alerts.png    # Mobile alert positioning
+    ├── mobile-forecast.png  # Mobile forecast view
+    ├── alertonmini.png      # iPad Mini alert display
+    ├── map-interaction.png  # Interactive map features
+    ├── recent-searches.png  # Search history dropdown
+    └── forecast-details.png # Detailed forecast view
 ```
 
 ## 🌐 API Integration
