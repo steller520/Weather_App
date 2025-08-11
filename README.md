@@ -57,18 +57,36 @@ A comprehensive, responsive weather forecast application built with vanilla Java
 
 ## 🚀 Live Demo
 
-Visit the live application: [Weather App Demo](your-demo-link-here)
+Visit the live application: [Weather App Demo](https://your-weather-app-demo.netlify.app)
 
 ## 📱 Screenshots
 
-### Desktop View
-![Desktop Screenshot](screenshots/desktop-view.png)
+### 🖥️ Desktop Experience
+![Desktop View - Main Interface](screenshots/desktop-main.png)
+*Main weather interface showing current weather, 5-day forecast, and interactive map*
 
-### Mobile View
-![Mobile Screenshot](screenshots/mobile-view.png)
+![Desktop View - Weather Alerts](screenshots/desktop-alerts.png)
+*Custom weather alerts with gradient backgrounds for extreme weather conditions*
 
-### Dynamic Backgrounds
-![Weather Backgrounds](screenshots/weather-backgrounds.png)
+### 📱 Mobile Experience
+![Mobile View - Portrait](screenshots/mobile-portrait.png)
+*Mobile responsive design with optimized layout for smaller screens*
+
+![Mobile View - Alerts](screenshots/mobile-alerts.png)
+*Mobile alert positioning at the top of the screen for better visibility*
+
+![Mobile View - Forecast](screenshots/mobile-forecast.png)
+*5-day forecast cards adapted for mobile viewing with touch-friendly interface*
+
+### 🗺️ Interactive Features
+![Interactive Map](screenshots/map-interaction.png)
+*Leaflet.js map with location markers and detailed popups showing coordinates*
+
+![Recent Searches](screenshots/recent-searches.png)
+*Dropdown showing recent search history with persistent local storage*
+
+![Forecast Details](screenshots/forecast-details.png)
+*Detailed view of individual forecast day with comprehensive weather information*
 
 ## 🛠️ Installation
 
@@ -221,6 +239,7 @@ weather-app/
 │       └── images/          # Application images
 │
 └── screenshots/             # Application screenshots
+    
 ```
 
 ## 🌐 API Integration
