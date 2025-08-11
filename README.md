@@ -1,5 +1,7 @@
 # 🌤️ Weather Forecast Application
 
+Note: create config file as instructed and add your api key in it 
+
 ![Weather App](https://img.shields.io/badge/Weather-App-blue?style=for-the-badge&logo=openweathermap)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?style=for-the-badge&logo=javascript)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
@@ -25,7 +27,7 @@ A comprehensive, responsive weather forecast application built with vanilla Java
 - [🌟 Advanced Features](#-advanced-features)
 - [📊 Browser Support](#-browser-support)
 - [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- [👤 Author](#-author)
 - [🙏 Acknowledgments](#-acknowledgments)
 
 ## ✨ Features
@@ -63,32 +65,41 @@ Visit the live application: [Weather App Demo](https://your-weather-app-demo.net
 
 ### 🖥️ Desktop Experience
 ![Desktop View - Main Interface](screenshots/desktop-main.png)
+
 *Main weather interface showing current weather, 5-day forecast, and interactive map*
 
 ![Desktop View - Weather Alerts](screenshots/desktop-alerts.png)
+
 *Custom weather alerts with gradient backgrounds for extreme weather conditions*
 
 ### 📱 Mobile Experience
 ![Mobile View - Portrait](screenshots/mobile-portrait.png)
+
 *Mobile responsive design with optimized layout for smaller screens*
 
 ![Mobile View - Alerts](screenshots/mobile-alerts.png)
+
 *Mobile alert positioning at the top of the screen for better visibility*
 
 ![Mobile View - Forecast](screenshots/mobile-forecast.png)
+
 *5-day forecast cards adapted for mobile viewing with touch-friendly interface*
 
 ![Alert on iPad Mini](screenshots/alertonmini.png)
+
 *Alert display optimization for iPad Mini and tablet devices*
 
 ### 🗺️ Interactive Features
 ![Interactive Map](screenshots/map-interaction.png)
+
 *Leaflet.js map with location markers and detailed popups showing coordinates*
 
 ![Recent Searches](screenshots/recent-searches.png)
+
 *Dropdown showing recent search history with persistent local storage*
 
 ![Forecast Details](screenshots/forecast-details.png)
+
 *Detailed view of individual forecast day with comprehensive weather information*
 
 ## 🛠️ Installation
@@ -402,24 +413,7 @@ We welcome contributions to improve the Weather App! Here's how you can help:
 - Create weather widgets
 - Improve accessibility features
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2024 Weather App
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
 ```
 
 ## 🙏 Acknowledgments
@@ -442,14 +436,9 @@ copies or substantial portions of the Software.
 
 ---
 
-## 📞 Support
+## 👤 Author
 
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/yourusername/weather-app/issues) page
-2. Create a new issue with detailed description
-3. Contact the development team
-
+Made by [steller520](https://github.com/steller520)
 ---
 
 **Built with ❤️ for weather enthusiasts and developers**
